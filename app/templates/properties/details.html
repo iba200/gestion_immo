@@ -1,0 +1,189 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<!-- Breadcrumb -->
+<nav class="mb-4 fade-in">
+  <a href="{{ url_for('properties.index') }}" class="text-muted text-decoration-none small fw-500">
+    <i class="bi bi-arrow-left me-1"></i> Retour aux immeubles
+  </a>
+</nav>
+
+<!-- Header -->
+<div class="card-static mb-4 fade-in">
+  <div class="d-flex justify-content-between align-items-start flex-wrap gap-3">
+    <div class="d-flex align-items-start gap-3">
+      <div class="d-flex align-items-center justify-content-center"
+        style="width: 56px; height: 56px; border-radius: 12px; background: rgba(37, 99, 235, 0.1);">
+        <i class="bi bi-building text-bleu" style="font-size: 1.75rem;"></i>
+      </div>
+      <div>
+        <h2 class="fw-600 mb-1">{{ property.name }}</h2>
+        {% if property.address %}
+        <p class="text-muted mb-0 small">
+          <i class="bi bi-geo-alt"></i>
+          {{ property.address }}
+        </p>
+        {% endif %}
+      </div>
+    </div>
+
+    <div class="d-flex gap-2">
+      <a href="{{ url_for('properties.edit_property', property_id=property.id) }}" class="btn-minimal btn-secondary">
+        <i class="bi bi-pencil"></i>
+        Modifier
+      </a>
+
+      {% if current_user.can_add_unit() %}
+      <a href="{{ url_for('properties.add_unit', property_id=property.id) }}" class="btn-minimal btn-primary">
+        <i class="bi bi-plus-lg"></i>
+        Nouvel Appartement
+      </a>
+      {% else %}
+      <a href="{{ url_for('main.pricing') }}" class="btn-minimal btn-secondary">
+        <i class="bi bi-lock"></i>
+        Débloquer
+      </a>
+      {% endif %}
+
+      <!-- Delete Property -->
+      <div class="dropdown">
+        <button class="btn-minimal btn-secondary" data-bs-toggle="dropdown">
+          <i class="bi bi-three-dots-vertical"></i>
+        </button>
+        <ul class="dropdown-menu dropdown-menu-end shadow-sm border-0 mt-2" style="border-radius: var(--radius-md);">
+          <li>
+            <form method="POST" action="{{ url_for('properties.delete_property', property_id=property.id) }}"
+              onsubmit="return confirm('Supprimer cet immeuble et tous ses appartements ?');">
+              <button type="submit" class="dropdown-item text-danger fw-500">
+                <i class="bi bi-trash me-2"></i>Supprimer l'immeuble
+              </button>
+            </form>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Apartments Section -->
+<h6 class="fw-600 mb-3 text-uppercase small" style="letter-spacing: 0.5px; color: var(--gris-600);">
+  Appartements ({{ units|length }})
+</h6>
+
+{% if units %}
+<div class="row g-3">
+  {% for unit in units %}
+  <div class="col-md-6 col-xl-4">
+    <div class="card-minimal-sm hover-lift h-100 fade-in">
+      <!-- Header -->
+      <div class="d-flex justify-content-between align-items-start mb-3">
+        <div class="flex-grow-1">
+          <h5 class="fw-600 text-noir mb-1">Appt {{ unit.door_number }}</h5>
+          <p class="text-muted small mb-0">{{ "{:,.0f}".format(unit.rent_amount).replace(',', ' ') }} CFA/mois</p>
+        </div>
+        <div class="d-flex align-items-start gap-2">
+          {% if unit.current_tenant %}
+          <span class="badge-success small">
+            <i class="bi bi-person-check"></i> Occupé
+          </span>
+          {% else %}
+          <span class="badge-danger small">
+            <i class="bi bi-house-slash"></i> Vide
+          </span>
+          {% endif %}
+
+          <!-- Delete Unit -->
+          <div class="dropdown">
+            <button class="btn p-0 border-0 bg-transparent text-muted" data-bs-toggle="dropdown"
+              style="font-size: 1.25rem;">
+              <i class="bi bi-three-dots-vertical"></i>
+            </button>
+            <ul class="dropdown-menu dropdown-menu-end shadow-sm border-0" style="border-radius: var(--radius-md);">
+              <li>
+                <a href="{{ url_for('properties.edit_unit', unit_id=unit.id) }}" class="dropdown-item fw-500 small">
+                  <i class="bi bi-pencil me-2"></i>Modifier
+                </a>
+              </li>
+              <li>
+                <hr class="dropdown-divider">
+              </li>
+              <li>
+                <form method="POST" action="{{ url_for('properties.delete_unit', unit_id=unit.id) }}"
+                  onsubmit="return confirm('Supprimer l\'appartement {{ unit.door_number }} ?');">
+                  <button type="submit" class="dropdown-item text-danger fw-500 small">
+                    <i class="bi bi-trash me-2"></i>Supprimer
+                  </button>
+                </form>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tenant Info -->
+      {% if unit.current_tenant %}
+      <div class="mb-3 pb-3" style="border-bottom: 1px solid var(--gris-200);">
+        <div class="text-uppercase small fw-500 text-muted mb-2" style="font-size: 0.7rem; letter-spacing: 0.5px;">
+          Locataire</div>
+        <p class="fw-500 text-noir mb-1 small">{{ unit.current_tenant.full_name }}</p>
+        {% if unit.current_tenant.phone %}
+        <p class="text-muted mb-0" style="font-size: 0.8125rem;">
+          <i class="bi bi-telephone"></i> {{ unit.current_tenant.phone }}
+        </p>
+        {% endif %}
+      </div>
+
+      <!-- Action -->
+      <a href="{{ url_for('properties.tenant_details', tenant_id=unit.current_tenant.id) }}"
+        class="btn-minimal btn-primary w-100">
+        <i class="bi bi-person-circle"></i>
+        Voir le dossier
+      </a>
+      {% else %}
+      <!-- Add Tenant -->
+      <a href="{{ url_for('properties.new_tenant', unit_id=unit.id) }}" class="btn-minimal btn-primary w-100">
+        <i class="bi bi-person-plus"></i>
+        Ajouter un locataire
+      </a>
+      {% endif %}
+    </div>
+  </div>
+  {% endfor %}
+</div>
+
+{% else %}
+<!-- Empty State -->
+<div class="text-center py-5 fade-in-up">
+  <div class="d-flex align-items-center justify-content-center mx-auto mb-4"
+    style="width: 80px; height: 80px; border-radius: 16px; background: rgba(37, 99, 235, 0.1);">
+    <i class="bi bi-house-door text-bleu" style="font-size: 2rem;"></i>
+  </div>
+  <h4 class="fw-600 mb-2">Aucun appartement</h4>
+  <p class="text-muted mb-4">Ajoutez votre premier appartement à cet immeuble.</p>
+  {% if current_user.can_add_unit() %}
+  <a href="{{ url_for('properties.add_unit', property_id=property.id) }}" class="btn-minimal btn-primary btn-large">
+    <i class="bi bi-plus-lg"></i>
+    Ajouter un appartement
+  </a>
+  {% else %}
+  <a href="{{ url_for('main.pricing') }}" class="btn-minimal btn-primary btn-large">
+    <i class="bi bi-unlock"></i>
+    Débloquer Plus d'Appartements
+  </a>
+  {% endif %}
+</div>
+{% endif %}
+
+<!-- Mobile FAB -->
+<div class="d-lg-none position-fixed" style="bottom: 90px; right: 20px; z-index: 900;">
+  {% if current_user.can_add_unit() %}
+  <a href="{{ url_for('properties.add_unit', property_id=property.id) }}"
+    class="btn-minimal btn-primary rounded-circle shadow-lg d-flex align-items-center justify-content-center"
+    style="width: 56px; height: 56px; padding: 0;">
+    <i class="bi bi-plus-lg fs-4"></i>
+  </a>
+  {% endif %}
+</div>
+
+{% endblock %}

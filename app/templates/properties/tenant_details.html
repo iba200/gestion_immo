@@ -1,0 +1,162 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<!-- Breadcrumb -->
+<nav class="mb-4 fade-in">
+    <a href="{{ url_for('properties.details', property_id=tenant.unit.property.id) }}"
+        class="text-muted text-decoration-none small fw-500">
+        <i class="bi bi-arrow-left me-1"></i> Retour à l'immeuble
+    </a>
+</nav>
+
+<div class="row">
+    <!-- Left: Tenant Info -->
+    <div class="col-md-4 mb-4">
+        <div class="card-static fade-in">
+            <!-- Header -->
+            <div class="text-center mb-4">
+                <div class="d-flex align-items-center justify-content-center mx-auto mb-3"
+                    style="width: 64px; height: 64px; border-radius: 16px; background: rgba(37, 99, 235, 0.1);">
+                    <i class="bi bi-person-circle text-bleu" style="font-size: 2rem;"></i>
+                </div>
+                <h4 class="fw-600 mb-2">{{ tenant.full_name }}</h4>
+                <p class="text-muted small mb-0">
+                    <i class="bi bi-building"></i> {{ tenant.unit.property.name }} - Appt {{ tenant.unit.door_number }}
+                </p>
+            </div>
+
+            <!-- Contact Info -->
+            <div class="mb-4"
+                style="border-top: 1px solid var(--gris-200); border-bottom: 1px solid var(--gris-200); padding: 1rem 0;">
+                <div class="mb-2">
+                    <div class="text-uppercase small fw-500 text-muted mb-1"
+                        style="font-size: 0.7rem; letter-spacing: 0.5px;">Téléphone</div>
+                    <p class="mb-0 fw-500 text-noir small">
+                        <i class="bi bi-telephone text-bleu me-2"></i>{{ tenant.phone }}
+                    </p>
+                </div>
+                {% if tenant.email %}
+                <div class="mb-2">
+                    <div class="text-uppercase small fw-500 text-muted mb-1"
+                        style="font-size: 0.7rem; letter-spacing: 0.5px;">Email</div>
+                    <p class="mb-0 small text-muted">
+                        <i class="bi bi-envelope text-bleu me-2"></i>{{ tenant.email }}
+                    </p>
+                </div>
+                {% endif %}
+                <div>
+                    <div class="text-uppercase small fw-500 text-muted mb-1"
+                        style="font-size: 0.7rem; letter-spacing: 0.5px;">Date d'entrée</div>
+                    <p class="mb-0 small text-muted">
+                        <i class="bi bi-calendar-check text-bleu me-2"></i>{{ tenant.entry_date.strftime('%d/%m/%Y') }}
+                    </p>
+                </div>
+            </div>
+
+            <!-- Actions -->
+            <div class="d-grid gap-2">
+                <a href="{{ url_for('finances.add_payment', tenant_id=tenant.id) }}" class="btn-minimal btn-primary">
+                    <i class="bi bi-cash"></i>
+                    Enregistrer un Paiement
+                </a>
+
+                <!-- More Options Dropdown -->
+                <div class="dropdown">
+                    <button class="btn-minimal btn-secondary w-100" data-bs-toggle="dropdown">
+                        <i class="bi bi-three-dots-vertical"></i>
+                        Plus d'options
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-end shadow-sm border-0 w-100"
+                        style="border-radius: var(--radius-md);">
+                        <li>
+                            <a href="{{ url_for('properties.edit_tenant', tenant_id=tenant.id) }}"
+                                class="dropdown-item fw-500">
+                                <i class="bi bi-pencil me-2"></i>Modifier le locataire
+                            </a>
+                        </li>
+                        <li>
+                            <hr class="dropdown-divider">
+                        </li>
+                        <li>
+                            <form method="POST" action="{{ url_for('properties.delete_tenant', tenant_id=tenant.id) }}"
+                                onsubmit="return confirm('Supprimer le locataire {{ tenant.full_name }} ? Cette action est irréversible.');">
+                                <button type="submit" class="dropdown-item text-danger fw-500">
+                                    <i class="bi bi-trash me-2"></i>Supprimer le locataire
+                                </button>
+                            </form>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Right: Payments History -->
+    <div class="col-md-8">
+        <div class="card-static fade-in">
+            <h5 class="fw-600 mb-4">Historique des Paiements</h5>
+
+            {% if payments %}
+            <div class="table-responsive">
+                <table class="table table-borderless align-middle">
+                    <thead>
+                        <tr class="border-bottom" style="border-color: var(--gris-200) !important;">
+                            <th class="small fw-600 text-uppercase text-muted"
+                                style="font-size: 0.7rem; letter-spacing: 0.5px;">Période</th>
+                            <th class="small fw-600 text-uppercase text-muted"
+                                style="font-size: 0.7rem; letter-spacing: 0.5px;">Date</th>
+                            <th class="small fw-600 text-uppercase text-muted"
+                                style="font-size: 0.7rem; letter-spacing: 0.5px;">Montant</th>
+                            <th class="text-end small fw-600 text-uppercase text-muted"
+                                style="font-size: 0.7rem; letter-spacing: 0.5px;">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for payment in payments %}
+                        <tr class="border-bottom" style="border-color: var(--gris-100) !important;">
+                            <td class="fw-500 small">{{ payment.period }}</td>
+                            <td class="text-muted small">{{ payment.date_paid.strftime('%d/%m/%Y') }}</td>
+                            <td class="fw-500 small">{{ "{:,.0f}".format(payment.amount).replace(',', ' ') }} CFA</td>
+                            <td class="text-end">
+                                <div class="d-flex gap-2 justify-content-end">
+                                    <a href="{{ url_for('finances.download_receipt', payment_id=payment.id) }}"
+                                        class="btn btn-sm btn-outline-danger" target="_blank"
+                                        style="font-size: 0.8125rem;">
+                                        <i class="bi bi-file-earmark-pdf"></i> PDF
+                                    </a>
+                                    <form method="POST"
+                                        action="{{ url_for('finances.delete_payment', payment_id=payment.id) }}"
+                                        onsubmit="return confirm('Supprimer le paiement de {{ payment.period }} ?');"
+                                        class="d-inline">
+                                        <button type="submit" class="btn btn-sm btn-outline-secondary"
+                                            style="font-size: 0.8125rem;">
+                                            <i class="bi bi-trash"></i>
+                                        </button>
+                                    </form>
+                                </div>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            {% else %}
+            <!-- Empty State -->
+            <div class="text-center py-5">
+                <div class="d-flex align-items-center justify-content-center mx-auto mb-3"
+                    style="width: 64px; height: 64px; border-radius: 12px; background: rgba(37, 99, 235, 0.1);">
+                    <i class="bi bi-receipt text-bleu fs-4"></i>
+                </div>
+                <p class="text-muted small mb-4">Aucun paiement enregistré pour le moment.</p>
+                <a href="{{ url_for('finances.add_payment', tenant_id=tenant.id) }}" class="btn-minimal btn-primary">
+                    <i class="bi bi-plus-lg"></i>
+                    Premier paiement
+                </a>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,112 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="row justify-content-center align-items-center" style="min-height: 70vh;">
+    <div class="col-lg-6 col-xl-5">
+        <!-- Logo/Icon -->
+        <div class="text-center mb-4 fade-in">
+            <div class="d-flex align-items-center justify-content-center mx-auto mb-3"
+                style="width: 64px; height: 64px; border-radius: 16px; background: var(--noir);">
+                <span class="text-white fw-600" style="font-size: 1.5rem; letter-spacing: -0.02em;">IG</span>
+            </div>
+            <h3 class="fw-600 mb-1">Créer un compte</h3>
+            <p class="text-muted small mb-0">Commencez gratuitement avec 2 appartements</p>
+        </div>
+
+        <!-- Register Card -->
+        <div class="card-static fade-in-up">
+            <form method="POST">
+                {{ form.hidden_tag() }}
+
+                <!-- Email Field -->
+                <div class="mb-3">
+                    <label for="email" class="form-label small fw-500 text-noir mb-2">
+                        Email <span class="text-danger">*</span>
+                    </label>
+                    {{ form.email(class="input-minimal", placeholder="votre@email.com", autocomplete="email") }}
+                    {% if form.email.errors %}
+                    <div class="text-danger small mt-1">
+                        {% for error in form.email.errors %}{{ error }}{% endfor %}
+                    </div>
+                    {% endif %}
+                </div>
+
+                <!-- Phone Field -->
+                <div class="mb-3">
+                    <label for="phone" class="form-label small fw-500 text-noir mb-2">
+                        Téléphone WhatsApp <span class="text-danger">*</span>
+                    </label>
+                    {{ form.phone(class="input-minimal", placeholder="77 123 45 67", autocomplete="tel") }}
+                    {% if form.phone.errors %}
+                    <div class="text-danger small mt-1">
+                        {% for error in form.phone.errors %}{{ error }}{% endfor %}
+                    </div>
+                    {% endif %}
+                    <small class="text-muted d-block mt-1" style="font-size: 0.75rem;">
+                        Pour les notifications de paiement
+                    </small>
+                </div>
+
+                <!-- Password Field -->
+                <div class="mb-3">
+                    <label for="password" class="form-label small fw-500 text-noir mb-2">
+                        Mot de passe <span class="text-danger">*</span>
+                    </label>
+                    {{ form.password(class="input-minimal", placeholder="Minimum 6 caractères",
+                    autocomplete="new-password") }}
+                    {% if form.password.errors %}
+                    <div class="text-danger small mt-1">
+                        {% for error in form.password.errors %}{{ error }}{% endfor %}
+                    </div>
+                    {% endif %}
+                </div>
+
+                <!-- Confirm Password Field -->
+                <div class="mb-4">
+                    <label for="confirm_password" class="form-label small fw-500 text-noir mb-2">
+                        Confirmer le mot de passe <span class="text-danger">*</span>
+                    </label>
+                    {{ form.confirm_password(class="input-minimal", placeholder="Répétez votre mot de passe",
+                    autocomplete="new-password") }}
+                    {% if form.confirm_password.errors %}
+                    <div class="text-danger small mt-1">
+                        {% for error in form.confirm_password.errors %}{{ error }}{% endfor %}
+                    </div>
+                    {% endif %}
+                </div>
+
+                <!-- Features Info -->
+                <div class="card-minimal-sm mb-4" style="background: var(--gris-100); box-shadow: none;">
+                    <p class="small fw-500 text-noir mb-2">Plan Gratuit inclut :</p>
+                    <ul class="list-unstyled mb-0 small text-muted">
+                        <li class="mb-1"><i class="bi bi-check-circle text-success me-2"></i>2 appartements maximum</li>
+                        <li class="mb-1"><i class="bi bi-check-circle text-success me-2"></i>Quittances PDF illimitées
+                        </li>
+                        <li><i class="bi bi-check-circle text-success me-2"></i>Support WhatsApp</li>
+                    </ul>
+                </div>
+
+                <!-- Submit Button -->
+                <div class="d-grid">
+                    <button type="submit" class="btn-minimal btn-primary btn-large">
+                        <i class="bi bi-rocket-takeoff"></i>
+                        Créer mon compte gratuit
+                    </button>
+                </div>
+            </form>
+        </div>
+
+        <!-- Login Link -->
+        <div class="text-center mt-4 fade-in">
+            <p class="text-muted small mb-0">
+                Déjà un compte ?
+                <a href="{{ url_for('auth.login') }}" class="text-bleu text-decoration-none fw-500">
+                    Se connecter
+                </a>
+            </p>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,110 @@
+{% extends "base.html" %} {% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+  <h2><i class="bi bi-shield-lock-fill text-danger"></i> Administration SaaS</h2>
+  <span class="badge bg-secondary">{{ users|length }} Utilisateurs Inscrits</span>
+</div>
+
+<div class="card shadow">
+  <div class="table-responsive">
+    <table class="table table-hover align-middle mb-0">
+      <thead class="table-dark">
+        <tr>
+          <th>Utilisateur</th>
+          <th>Date Inscription</th>
+          <th>Stats</th>
+          <th>Plan Actuel</th>
+          <th>Action (Changer Plan)</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for user in users %}
+        <tr class="{{ 'table-success' if user.plan == 'premium' else '' }}">
+          <td>
+            <div class="fw-bold">{{ user.email }}</div>
+            <div class="small text-muted">{{ user.phone }}</div>
+          </td>
+          <td>{{ user.created_at.strftime('%d/%m/%Y') }}</td>
+          <td>
+            <span class="badge bg-info text-dark">{{ user.properties.count() }} Immeubles</span>
+            <span class="badge bg-light text-dark border"
+              >{{ user.get_total_units() }} Apparts</span
+            >
+          </td>
+          <td>
+            {% if user.plan == 'premium' %}
+            <span class="badge bg-success">ILLIMITÉ</span>
+            {% elif user.plan == 'standard' %}
+            <span class="badge bg-primary">STANDARD</span>
+            {% else %}
+            <span class="badge bg-secondary">GRATUIT</span>
+            {% endif %}
+          </td>
+          <td>
+            <div class="btn-group">
+              <button
+                type="button"
+                class="btn btn-sm btn-secondary dropdown-toggle"
+                data-bs-toggle="dropdown"
+              >
+                Activer
+              </button>
+              <ul class="dropdown-menu">
+                <li>
+                  <form
+                    action="{{ url_for('main.update_user_plan', user_id=user.id) }}"
+                    method="POST"
+                  >
+                    <input type="hidden" name="action" value="free" />
+                    <button class="dropdown-item text-danger">Arrêter (Passer Free)</button>
+                  </form>
+                </li>
+                <li><hr class="dropdown-divider" /></li>
+
+                <li><h6 class="dropdown-header">Standard (5.000F)</h6></li>
+                <li>
+                  <form
+                    action="{{ url_for('main.update_user_plan', user_id=user.id) }}"
+                    method="POST"
+                  >
+                    <input type="hidden" name="action" value="standard_1_month" />
+                    <button class="dropdown-item">+ 1 Mois</button>
+                  </form>
+                </li>
+
+                <li><h6 class="dropdown-header">Premium (10.000F)</h6></li>
+                <li>
+                  <form
+                    action="{{ url_for('main.update_user_plan', user_id=user.id) }}"
+                    method="POST"
+                  >
+                    <input type="hidden" name="action" value="premium_1_month" />
+                    <button class="dropdown-item">+ 1 Mois</button>
+                  </form>
+                </li>
+                <li>
+                  <form
+                    action="{{ url_for('main.update_user_plan', user_id=user.id) }}"
+                    method="POST"
+                  >
+                    <input type="hidden" name="action" value="premium_1_year" />
+                    <button class="dropdown-item fw-bold text-success">+ 1 An (50.000F)</button>
+                  </form>
+                </li>
+              </ul>
+            </div>
+
+            {% if user.subscription_end %}
+            <br /><small
+              class="{{ 'text-danger' if user.subscription_end < now else 'text-muted' }}"
+            >
+              Fin : {{ user.subscription_end.strftime('%d/%m/%Y') }}
+            </small>
+            {% endif %}
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% endblock %}

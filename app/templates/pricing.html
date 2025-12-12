@@ -1,0 +1,281 @@
+{% extends "base.html" %}
+
+{% block title %}Nos Tarifs - ImmoGest Sénégal{% endblock %}
+
+{% block content %}
+
+<div class="container pb-5">
+    
+    <!-- 1. HEADER SECTION -->
+    <div class="text-center py-5 fade-in">
+        <span class="badge bg-light text-primary mb-3 border px-3 py-2 rounded-pill fw-600">
+            SIMPLE & TRANSPARENT
+        </span>
+        <h1 class="fw-bold mb-3 display-5" style="letter-spacing: -0.02em;">
+            Investissez dans votre tranquillité
+        </h1>
+        <p class="text-muted lead mx-auto" style="max-width: 600px;">
+            Gérez vos biens immobiliers comme un pro. Commencez gratuitement, évoluez quand vous voulez.
+        </p>
+    </div>
+
+    <!-- 2. PRICING CARDS -->
+    <div class="row g-4 align-items-center mb-5">
+        
+        <!-- PLAN GRATUIT (Discovery) -->
+        <div class="col-lg-4 order-2 order-lg-1">
+            <div class="card-static h-100 fade-in-up border-0 shadow-sm" style="background: #fff;">
+                <div class="p-4">
+                    <div class="d-flex align-items-center gap-3 mb-4">
+                        <div class="d-flex align-items-center justify-content-center bg-light rounded-3" 
+                             style="width: 48px; height: 48px;">
+                            <i class="bi bi-bicycle text-muted fs-4"></i>
+                        </div>
+                        <div>
+                            <h4 class="fw-bold mb-0">Découverte</h4>
+                            <span class="text-muted small">Pour tester l'outil</span>
+                        </div>
+                    </div>
+                    
+                    <div class="mb-4">
+                        <span class="display-4 fw-bold text-dark">0</span>
+                        <span class="text-muted fw-600 fs-5">F</span>
+                        <span class="text-muted small">/ à vie</span>
+                    </div>
+
+                    <p class="text-muted small mb-4">Idéal pour les propriétaires débutants avec un petit parc immobilier.</p>
+
+                    <div class="d-grid mb-4">
+                        {% if current_user.is_authenticated and current_user.plan == 'free' %}
+                            <button class="btn btn-light text-muted fw-600 py-2" disabled>
+                                <i class="bi bi-check2 me-2"></i>Votre plan actuel
+                            </button>
+                        {% else %}
+                            <a href="{{ url_for('auth.register') }}" class="btn btn-outline-dark fw-600 py-2">
+                                Créer un compte gratuit
+                            </a>
+                        {% endif %}
+                    </div>
+
+                    <ul class="list-unstyled mb-0 d-grid gap-3 small text-muted">
+                        <li class="d-flex gap-2">
+                            <i class="bi bi-check-circle-fill text-dark"></i>
+                            <span>Max. <strong>2 Appartements</strong></span>
+                        </li>
+                        <li class="d-flex gap-2">
+                            <i class="bi bi-check-circle-fill text-dark"></i>
+                            <span>Quittances PDF simples</span>
+                        </li>
+                        <li class="d-flex gap-2">
+                            <i class="bi bi-check-circle-fill text-dark"></i>
+                            <span>Tableau de bord basique</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- PLAN STANDARD (Focus) -->
+        <div class="col-lg-4 order-1 order-lg-2">
+            <div class="card-static h-100 fade-in-up position-relative border-0 shadow" 
+                 style="background: #fff; transform: scale(1.02); z-index: 10; border-top: 4px solid var(--bleu);">
+                
+                <div class="position-absolute top-0 start-50 translate-middle">
+                    <span class="badge bg-primary px-3 py-2 rounded-pill shadow-sm text-uppercase" 
+                          style="font-size: 0.75rem; letter-spacing: 1px;">
+                        Recommandé
+                    </span>
+                </div>
+
+                <div class="p-4 pt-5">
+                    <div class="d-flex align-items-center gap-3 mb-4">
+                        <div class="d-flex align-items-center justify-content-center rounded-3" 
+                             style="width: 48px; height: 48px; background: rgba(37, 99, 235, 0.1);">
+                            <i class="bi bi-car-front-fill text-primary fs-4"></i>
+                        </div>
+                        <div>
+                            <h4 class="fw-bold mb-0 text-primary">Standard</h4>
+                            <span class="text-muted small">Pour les propriétaires actifs</span>
+                        </div>
+                    </div>
+
+                    <div class="mb-4">
+                        <span class="display-4 fw-bold text-dark">5.000</span>
+                        <span class="text-muted fw-600 fs-5">F</span>
+                        <span class="text-muted small">/ mois</span>
+                    </div>
+
+                    <p class="text-muted small mb-4">La solution complète pour gérer plusieurs immeubles sans maux de tête.</p>
+
+                    <div class="d-grid mb-4">
+                        {% if current_user.is_authenticated and current_user.plan == 'standard' %}
+                            <button class="btn btn-light text-primary fw-600 py-3" disabled>
+                                <i class="bi bi-check-circle-fill me-2"></i>Votre plan actuel
+                            </button>
+                        {% else %}
+                            <a href="https://wa.me/221776767255?text=Bonjour,%20je%20veux%20activer%20le%20plan%20STANDARD%20sur%20ImmoGest" 
+                               class="btn btn-primary fw-600 py-3 shadow-sm hover-lift" target="_blank">
+                                <i class="bi bi-whatsapp me-2"></i>Activer via WhatsApp
+                            </a>
+                        {% endif %}
+                    </div>
+
+                    <ul class="list-unstyled mb-0 d-grid gap-3 small text-dark">
+                        <li class="d-flex gap-2">
+                            <i class="bi bi-check-circle-fill text-primary"></i>
+                            <span>Jusqu'à <strong>10 Appartements</strong></span>
+                        </li>
+                        <li class="d-flex gap-2">
+                            <i class="bi bi-check-circle-fill text-primary"></i>
+                            <span>Gestion <strong>Multi-Immeubles</strong></span>
+                        </li>
+                        <li class="d-flex gap-2">
+                            <i class="bi bi-check-circle-fill text-primary"></i>
+                            <span>Support Prioritaire WhatsApp</span>
+                        </li>
+                        <li class="d-flex gap-2">
+                            <i class="bi bi-check-circle-fill text-primary"></i>
+                            <span>Export des données Excel</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- PLAN ILLIMITÉ (Premium) -->
+        <div class="col-lg-4 order-3 order-lg-3">
+            <div class="card-static h-100 fade-in-up border-0 shadow-sm" style="background: #fff;">
+                <div class="p-4">
+                    <div class="d-flex align-items-center gap-3 mb-4">
+                        <div class="d-flex align-items-center justify-content-center rounded-3" 
+                             style="width: 48px; height: 48px; background: rgba(16, 185, 129, 0.1);">
+                            <i class="bi bi-airplane-engines-fill text-success fs-4"></i>
+                        </div>
+                        <div>
+                            <h4 class="fw-bold mb-0">Illimité</h4>
+                            <span class="text-muted small">Pour les investisseurs</span>
+                        </div>
+                    </div>
+
+                    <div class="mb-4">
+                        <span class="display-4 fw-bold text-dark">10.000</span>
+                        <span class="text-muted fw-600 fs-5">F</span>
+                        <span class="text-muted small">/ mois</span>
+                    </div>
+
+                    <p class="text-muted small mb-4">Aucune limite. Automatisation maximale pour gérer un empire immobilier.</p>
+
+                    <div class="d-grid mb-4">
+                        {% if current_user.is_authenticated and current_user.plan == 'premium' %}
+                            <button class="btn btn-light text-success fw-600 py-2" disabled>
+                                <i class="bi bi-check-circle-fill me-2"></i>Votre plan actuel
+                            </button>
+                        {% else %}
+                            <a href="https://wa.me/221776767255?text=Bonjour,%20je%20veux%20le%20plan%20ILLIMITE%20sur%20ImmoGest" 
+                               class="btn btn-outline-success fw-600 py-2" target="_blank">
+                               Choisir Illimité
+                            </a>
+                        {% endif %}
+                    </div>
+
+                    <ul class="list-unstyled mb-0 d-grid gap-3 small text-muted">
+                        <li class="d-flex gap-2">
+                            <i class="bi bi-check-circle-fill text-success"></i>
+                            <span class="text-dark fw-bold">Appartements Illimités</span>
+                        </li>
+                        <li class="d-flex gap-2">
+                            <i class="bi bi-check-circle-fill text-success"></i>
+                            <span class="text-dark fw-bold">Envoi WhatsApp Automatique</span>
+                        </li>
+                        <li class="d-flex gap-2">
+                            <i class="bi bi-check-circle-fill text-success"></i>
+                            <span class="text-dark fw-bold">Rappels de paiement Auto</span>
+                        </li>
+                         <li class="d-flex gap-2">
+                            <i class="bi bi-check-circle-fill text-success"></i>
+                            <span class="text-dark">Export Excel Complet</span>
+                        </li>
+                        <li class="d-flex gap-2">
+                            <i class="bi bi-check-circle-fill text-success"></i>
+                            <span>Dashboard Analytique Avancé</span>
+                        </li>
+                        <li class="d-flex gap-2">
+                            <i class="bi bi-check-circle-fill text-success"></i>
+                            <span>Multi-Utilisateurs (Gérants)</span>
+                        </li>
+                        <li class="d-flex gap-2">
+                            <i class="bi bi-check-circle-fill text-success"></i>
+                            <span>Logo Personnalisé sur PDF</span>
+                        </li>
+                         <li class="d-flex gap-2">
+                            <i class="bi bi-check-circle-fill text-success"></i>
+                            <span>Support Prioritaire 24/7</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 3. ANNUAL OFFER BANNER -->
+    <div class="row justify-content-center mb-5 fade-in">
+        <div class="col-lg-10">
+            <div class="position-relative overflow-hidden rounded-4 p-4 p-lg-5 text-white" 
+                 style="background: linear-gradient(135deg, #F59E0B 0%, #D97706 100%);">
+                
+                <!-- Decoration Circle -->
+                <div class="position-absolute top-0 end-0 opacity-10 translate-middle-y me-n5 mt-n5" 
+                     style="width: 300px; height: 300px; background: white; border-radius: 50%;"></div>
+
+                <div class="row align-items-center position-relative z-1">
+                    <div class="col-lg-7 mb-4 mb-lg-0">
+                        <span class="badge bg-white text-warning fw-bold mb-3 px-3 py-2">🔥 OFFRE SPÉCIALE</span>
+                        <h2 class="fw-bold mb-2">Passez à l'annuel et économisez !</h2>
+                        <p class="mb-0 opacity-90 fs-5">
+                            Payez 1 an du plan Illimité pour <strong class="text-white border-bottom">50.000 FCFA</strong> seulement.
+                            <br><span class="fs-6">(Au lieu de 120.000 FCFA au mois. Soit -60% de réduction !)</span>
+                        </p>
+                    </div>
+                    <div class="col-lg-5 text-lg-end">
+                        <a href="https://wa.me/221776767255?text=Je%20veux%20profiter%20de%20l'offre%20ANNUELLE%20a%2050000" 
+                           class="btn btn-white text-warning fw-bold px-4 py-3 shadow hover-lift btn-lg" target="_blank">
+                            <i class="bi bi-star-fill me-2"></i>Profiter de l'offre
+                        </a>
+                        <div class="mt-2 text-white-50 small">Paiement via Wave ou Orange Money</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 4. FAQ SIMPLE -->
+    <div class="row justify-content-center pt-4 fade-in">
+        <div class="col-lg-8">
+            <div class="text-center mb-5">
+                <h3 class="fw-bold">Questions Fréquentes</h3>
+            </div>
+            
+            <div class="row g-4">
+                <div class="col-md-6">
+                    <h6 class="fw-bold text-dark"><i class="bi bi-question-circle me-2 text-primary"></i>Comment payer ?</h6>
+                    <p class="text-muted small">Les paiements se font via Mobile Money (Wave, Orange Money) ou Free Money. Contactez-nous sur WhatsApp pour activer votre compte instantanément.</p>
+                </div>
+                <div class="col-md-6">
+                    <h6 class="fw-bold text-dark"><i class="bi bi-arrow-left-right me-2 text-primary"></i>Puis-je changer d'offre ?</h6>
+                    <p class="text-muted small">Oui, à tout moment. Si vous passez du Standard au Premium, nous ajustons le prix au prorata des jours restants.</p>
+                </div>
+                <div class="col-md-6">
+                    <h6 class="fw-bold text-dark"><i class="bi bi-shield-lock me-2 text-primary"></i>Mes données sont-elles sûres ?</h6>
+                    <p class="text-muted small">Absolument. Vos données locataires et financières sont chiffrées et sauvegardées quotidiennement sur nos serveurs sécurisés.</p>
+                </div>
+                <div class="col-md-6">
+                    <h6 class="fw-bold text-dark"><i class="bi bi-phone me-2 text-primary"></i>Ça marche sur mon téléphone ?</h6>
+                    <p class="text-muted small">Oui ! ImmoGest est conçu pour être utilisé à 100% depuis un smartphone Android ou iPhone.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+{% endblock %}

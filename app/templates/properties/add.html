@@ -1,0 +1,84 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<!-- Breadcrumb -->
+<nav class="mb-4 fade-in">
+    <a href="{{ url_for('properties.index') }}" class="text-muted text-decoration-none small fw-500">
+        <i class="bi bi-arrow-left me-1"></i> Retour aux immeubles
+    </a>
+</nav>
+
+<!-- Form Card -->
+<div class="row justify-content-center">
+    <div class="col-lg-8 col-xl-6">
+        <div class="card-static fade-in-up">
+            <!-- Header -->
+            <div class="text-center mb-4">
+                <div class="d-flex align-items-center justify-content-center mx-auto mb-3"
+                    style="width: 64px; height: 64px; border-radius: 16px; background: rgba(37, 99, 235, 0.1);">
+                    <i class="bi bi-building text-bleu" style="font-size: 2rem;"></i>
+                </div>
+                <h3 class="fw-600 mb-2">Ajouter un Immeuble</h3>
+                <p class="text-muted small mb-0">Enregistrez une nouvelle propriété</p>
+            </div>
+
+            <!-- Form -->
+            <form method="POST">
+                {{ form.hidden_tag() }}
+
+                <!-- Name Field -->
+                <div class="mb-4">
+                    <label for="name" class="form-label small fw-500 text-noir mb-2">
+                        Nom de l'immeuble <span class="text-danger">*</span>
+                    </label>
+                    {{ form.name(class="input-minimal", placeholder="Ex: Résidence Les Almadies") }}
+                    {% if form.name.errors %}
+                    <div class="text-danger small mt-1">
+                        {% for error in form.name.errors %}{{ error }}{% endfor %}
+                    </div>
+                    {% endif %}
+                </div>
+
+                <!-- Address Field -->
+                <div class="mb-4">
+                    <label for="address" class="form-label small fw-500 text-noir mb-2">
+                        Adresse complète <span class="text-muted fw-normal">(optionnel)</span>
+                    </label>
+                    {{ form.address(class="input-minimal", placeholder="Ex: Mermoz, Rue 12, Dakar") }}
+                    {% if form.address.errors %}
+                    <div class="text-danger small mt-1">
+                        {% for error in form.address.errors %}{{ error }}{% endfor %}
+                    </div>
+                    {% endif %}
+                </div>
+
+                <!-- Submit Button -->
+                <div class="d-grid gap-2">
+                    <button type="submit" class="btn-minimal btn-primary btn-large">
+                        <i class="bi bi-check-lg"></i>
+                        Enregistrer l'immeuble
+                    </button>
+                    <a href="{{ url_for('properties.index') }}" class="btn-minimal btn-secondary text-center">
+                        Annuler
+                    </a>
+                </div>
+            </form>
+        </div>
+
+        <!-- Help Card -->
+        <div class="card-minimal-sm mt-3 fade-in" style="background: var(--gris-100); box-shadow: none;">
+            <div class="d-flex gap-3">
+                <i class="bi bi-info-circle text-bleu" style="font-size: 1.25rem;"></i>
+                <div>
+                    <p class="small fw-500 text-noir mb-1">Conseil</p>
+                    <p class="small text-muted mb-0">
+                        Après avoir créé votre immeuble, vous pourrez y ajouter des appartements individuellement.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

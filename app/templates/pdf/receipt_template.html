@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Quittance de Loyer</title>
+    <style>
+        body {
+            font-family: Helvetica, Arial, sans-serif;
+            font-size: 14px;
+            line-height: 1.5;
+            color: #333;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 800px;
+            margin: 0 auto;
+            border: 2px solid #ddd;
+            padding: 20px;
+        }
+
+        .header {
+            text-align: center;
+
+            border-bottom: 2px solid {
+                    {
+                    brand_color
+                }
+            }
+
+            ;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+        }
+
+        .row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 15px;
+        }
+
+        .column {
+            width: 48%;
+        }
+
+        .box {
+            background: #f9f9f9;
+            padding: 15px;
+            border: 1px solid #eee;
+        }
+
+        .title {
+            font-size: 24px;
+            font-weight: bold;
+
+            color: {
+                    {
+                    brand_color
+                }
+            }
+
+            ;
+        }
+
+        .amount-box {
+            text-align: right;
+            margin-top: 20px;
+        }
+
+        .amount {
+            font-size: 28px;
+            font-weight: bold;
+
+            color: {
+                    {
+                    brand_color
+                }
+            }
+
+            ;
+        }
+
+        .footer {
+            margin-top: 40px;
+            font-size: 10px;
+            text-align: center;
+            color: #777;
+            border-top: 1px solid #eee;
+            padding-top: 10px;
+        }
+
+        .stamp {
+            text-align: right;
+            margin-top: 30px;
+            color: #aaa;
+            font-style: italic;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="header">
+            {% if logo_path %}
+            <div style="margin-bottom: 15px;">
+                <img src="{{ logo_path }}" style="max-height: 80px; max-width: 200px;">
+            </div>
+            {% endif %}
+            <div class="title">QUITTANCE DE LOYER</div>
+            <div>Période : <strong>{{ payment.period }}</strong></div>
+            <div>Réf Transaction : #{{ payment.receipt_token[:8] }}</div>
+        </div>
+
+        <table style="width: 100%; margin-bottom: 20px;">
+            <tr>
+                <td style="width: 50%; vertical-align: top;">
+                    <strong>BAILLEUR (Propriétaire)</strong><br>
+                    {{ owner.email }}<br>
+                    {{ owner.phone }}
+                </td>
+                <td style="width: 50%; vertical-align: top; text-align: right;">
+                    <strong>LOCATAIRE</strong><br>
+                    {{ tenant.full_name }}<br>
+                    {{ tenant.phone }}
+                </td>
+            </tr>
+        </table>
+
+        <div class="box">
+            <strong>Désignation du bien :</strong><br>
+            {{ property.name }}<br>
+            {{ property.address }}<br>
+            Appartement / Porte : {{ tenant.unit.door_number }}
+        </div>
+
+        <div class="amount-box">
+            Montant payé :<br>
+            <span class="amount">{{ "{:,.0f}".format(payment.amount).replace(',', ' ') }} FCFA</span>
+        </div>
+
+        <p>
+            Je soussigné(e), déclare avoir reçu de la part du locataire la somme mentionnée ci-dessus
+            au titre du loyer pour la période indiquée. Cette quittance est délivrée sous réserve de tous droits et
+            actions.
+        </p>
+
+        <p>
+            Fait le {{ payment.date_paid.strftime('%d/%m/%Y') }}
+        </p>
+
+        <div class="stamp">
+            Document généré électroniquement via ImmoGest SaaS.
+        </div>
+
+        <div class="footer">
+            ImmoGest SaaS - Gestion Immobilière Simplifiée
+        </div>
+    </div>
+</body>
+
+</html>

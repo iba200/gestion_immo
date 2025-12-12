@@ -1,0 +1,140 @@
+{% extends "base.html" %}
+
+{% block title %}Paramètres - ImmoGest{% endblock %}
+
+{% block content %}
+<div class="container pb-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <!-- Header -->
+            <div class="d-flex align-items-center justify-content-between mb-4 fade-in">
+                <div>
+                    <h1 class="h3 fw-bold mb-1">Paramètres du compte</h1>
+                    <p class="text-muted mb-0">Personnalisez votre expérience et vos documents</p>
+                </div>
+                <a href="{{ url_for('main.index') }}" class="btn btn-light">
+                    <i class="bi bi-arrow-left me-2"></i>Retour
+                </a>
+            </div>
+
+            <!-- Branding Settings (Premium) -->
+            <div class="card-static border-0 shadow-sm bg-white mb-4 fade-in-up">
+                <div class="card-header bg-white border-bottom py-3">
+                    <div class="d-flex align-items-center justify-content-between">
+                        <h5 class="fw-bold mb-0 d-flex align-items-center gap-2">
+                            <i class="bi bi-palette text-primary"></i>
+                            Personnalisation de la Marque
+                        </h5>
+                        {% if not current_user.has_feature('custom_branding') %}
+                        <span class="badge bg-warning-subtle text-warning border border-warning">
+                            <i class="bi bi-lock-fill me-1"></i>Premium
+                        </span>
+                        {% else %}
+                        <span class="badge bg-success-subtle text-success border border-success">
+                            <i class="bi bi-check-circle-fill me-1"></i>Activé
+                        </span>
+                        {% endif %}
+                    </div>
+                </div>
+                <div class="card-body p-4">
+                    {% if not current_user.has_feature('custom_branding') %}
+                    <div class="alert alert-info border-0 d-flex align-items-center mb-4">
+                        <i class="bi bi-info-circle-fill fs-4 me-3 text-info"></i>
+                        <div>
+                            <strong>Fonctionnalité Premium</strong><br>
+                            Passez au plan Premium pour ajouter votre logo et vos couleurs sur vos quittances et
+                            documents.
+                            <a href="{{ url_for('main.pricing') }}" class="fw-bold text-decoration-none ms-1">Voir les
+                                offres →</a>
+                        </div>
+                    </div>
+                    {% endif %}
+
+                    <form method="POST" enctype="multipart/form-data">
+                        <fieldset {% if not current_user.has_feature('custom_branding') %}disabled{% endif %}>
+
+                            <!-- Logo Upload -->
+                            <div class="mb-4">
+                                <label class="form-label fw-600 mb-2">Logo de votre entreprise</label>
+                                <div class="d-flex align-items-start gap-4">
+                                    <div class="bg-light rounded-3 d-flex align-items-center justify-content-center border"
+                                        style="width: 100px; height: 100px; overflow: hidden;">
+                                        {% if current_user.logo_filename %}
+                                        <img src="{{ url_for('static', filename='uploads/logos/' + current_user.logo_filename) }}"
+                                            alt="Logo" class="img-fluid" style="max-height: 100%; max-width: 100%;">
+                                        {% else %}
+                                        <i class="bi bi-image text-muted fs-1"></i>
+                                        {% endif %}
+                                    </div>
+                                    <div class="flex-grow-1">
+                                        <input type="file" name="logo" class="form-control mb-2"
+                                            accept=".png, .jpg, .jpeg">
+                                        <div class="form-text text-muted small">
+                                            Format recommandé : PNG ou JPG (max 2 Mo).<br>
+                                            Ce logo apparaîtra en haut à gauche de vos quittances PDF.
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Brand Color -->
+                            <div class="mb-4">
+                                <label class="form-label fw-600 mb-2">Couleur principale</label>
+                                <div class="d-flex align-items-center gap-3">
+                                    <input type="color" name="brand_color" class="form-control form-control-color"
+                                        value="{{ current_user.brand_color or '#4F46E5' }}"
+                                        title="Choisir votre couleur">
+                                    <div class="form-text text-muted mb-0">
+                                        Cette couleur sera utilisée pour les titres et accents sur vos documents PDF.
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="d-flex justify-content-end pt-3 border-top">
+                                <button type="submit" class="btn btn-primary px-4 fw-600 shadow-sm">
+                                    <i class="bi bi-save me-2"></i>Enregistrer les modifications
+                                </button>
+                            </div>
+                        </fieldset>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Account Info (Read Only for now) -->
+            <div class="card-static border-0 shadow-sm bg-white fade-in-up" style="animation-delay: 0.1s;">
+                <div class="card-header bg-white border-bottom py-3">
+                    <h5 class="fw-bold mb-0 d-flex align-items-center gap-2">
+                        <i class="bi bi-person-badge text-muted"></i>
+                        Informations du compte
+                    </h5>
+                </div>
+                <div class="card-body p-4">
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <label class="form-label text-muted small text-uppercase fw-bold">Email</label>
+                            <p class="fw-medium mb-0">{{ current_user.email }}</p>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label text-muted small text-uppercase fw-bold">Plan Actuel</label>
+                            <p class="fw-medium mb-0 text-capitalize">
+                                {% if current_user.plan == 'premium' %}
+                                <span class="badge bg-primary">Premium</span>
+                                {% elif current_user.plan == 'standard' %}
+                                <span class="badge bg-info text-dark">Standard</span>
+                                {% else %}
+                                <span class="badge bg-secondary">Gratuit</span>
+                                {% endif %}
+                            </p>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label text-muted small text-uppercase fw-bold">Membre depuis</label>
+                            <p class="fw-medium mb-0">{{ current_user.created_at.strftime('%d/%m/%Y') }}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+{% endblock %}

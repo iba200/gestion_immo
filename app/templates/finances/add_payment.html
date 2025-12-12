@@ -1,0 +1,98 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<!-- Breadcrumb -->
+<nav class="mb-4 fade-in">
+    <a href="{{ url_for('properties.tenant_details', tenant_id=tenant.id) }}"
+        class="text-muted text-decoration-none small fw-500">
+        <i class="bi bi-arrow-left me-1"></i> Retour au dossier
+    </a>
+</nav>
+
+<!-- Form Card -->
+<div class="row justify-content-center">
+    <div class="col-lg-8 col-xl-6">
+        <div class="card-static fade-in-up">
+            <!-- Header -->
+            <div class="text-center mb-4">
+                <div class="d-flex align-items-center justify-content-center mx-auto mb-3"
+                    style="width: 64px; height: 64px; border-radius: 16px; background: rgba(16, 185, 129, 0.1);">
+                    <i class="bi bi-cash-stack text-success" style="font-size: 2rem;"></i>
+                </div>
+                <h3 class="fw-600 mb-2">Enregistrer un Paiement</h3>
+                <p class="text-muted small mb-0">
+                    <i class="bi bi-person-circle"></i> {{ tenant.full_name }}
+                </p>
+                <p class="text-muted small mb-0">
+                    <i class="bi bi-building"></i> {{ tenant.unit.property.name }} - Appt {{ tenant.unit.door_number }}
+                </p>
+            </div>
+
+            <!-- Form -->
+            <form method="POST">
+                {{ form.hidden_tag() }}
+
+                <!-- Period -->
+                <div class="mb-3">
+                    <label for="period" class="form-label small fw-500 text-noir mb-2">
+                        Période <span class="text-danger">*</span>
+                    </label>
+                    {{ form.period(class="input-minimal", placeholder="Ex: Janvier 2024") }}
+                    {% if form.period.errors %}
+                    <div class="text-danger small mt-1">
+                        {% for error in form.period.errors %}{{ error }}{% endfor %}
+                    </div>
+                    {% endif %}
+                </div>
+
+                <!-- Amount -->
+                <div class="mb-4">
+                    <label for="amount" class="form-label small fw-500 text-noir mb-2">
+                        Montant <span class="text-danger">*</span>
+                    </label>
+                    <div class="input-group">
+                        {{ form.amount(class="input-minimal", type="number", style="border-right: none;") }}
+                        <span class="input-group-text bg-transparent"
+                            style="border-left: none; border: 1px solid var(--gris-200); border-left: none;">CFA</span>
+                    </div>
+                    {% if form.amount.errors %}
+                    <div class="text-danger small mt-1">
+                        {% for error in form.amount.errors %}{{ error }}{% endfor %}
+                    </div>
+                    {% endif %}
+                    <small class="text-muted d-block mt-1" style="font-size: 0.75rem;">
+                        Loyer mensuel : {{ "{:,.0f}".format(tenant.unit.rent_amount).replace(',', ' ') }} CFA
+                    </small>
+                </div>
+
+                <!-- Submit Button -->
+                <div class="d-grid gap-2">
+                    <button type="submit" class="btn-minimal btn-primary btn-large">
+                        <i class="bi bi-check-lg"></i>
+                        Enregistrer le paiement
+                    </button>
+                    <a href="{{ url_for('properties.tenant_details', tenant_id=tenant.id) }}"
+                        class="btn-minimal btn-secondary text-center">
+                        Annuler
+                    </a>
+                </div>
+            </form>
+        </div>
+
+        <!-- Help Card -->
+        <div class="card-minimal-sm mt-3 fade-in" style="background: rgba(16, 185, 129, 0.05); box-shadow: none;">
+            <div class="d-flex gap-3">
+                <i class="bi bi-info-circle text-success" style="font-size: 1.25rem;"></i>
+                <div>
+                    <p class="small fw-500 text-noir mb-1">Quittance automatique</p>
+                    <p class="small text-muted mb-0">
+                        Une quittance PDF sera automatiquement disponible après l'enregistrement du paiement.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

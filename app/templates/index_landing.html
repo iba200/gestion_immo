@@ -1,0 +1,239 @@
+{% extends "base_minimal.html" %}
+
+{% block content %}
+
+<!-- Navigation Bar -->
+<nav class="navbar navbar-expand-lg navbar-light bg-white border-bottom">
+    <div class="container py-2">
+        <a class="navbar-brand d-flex align-items-center gap-2" href="{{ url_for('main.index') }}">
+            <i class="bi bi-building text-bleu" style="font-size: 1.5rem;"></i>
+            <span class="fw-600" style="font-size: 1.5rem; letter-spacing: -0.01em;">ImmoGest</span>
+        </a>
+        <div class="d-flex gap-2">
+            <a href="{{ url_for('auth.login') }}" class="btn-minimal btn-secondary">
+                Connexion
+            </a>
+            <a href="{{ url_for('auth.register') }}" class="btn-minimal btn-primary">
+                Essayer gratuitement
+            </a>
+        </div>
+    </div>
+</nav>
+
+<!-- Hero Section -->
+<div class="py-5 fade-in" style="background: linear-gradient(135deg, #0A0A0A 0%, #1a1a1a 100%);">
+    <div class="container py-5">
+        <div class="row align-items-center">
+            <div class="col-lg-6 text-white mb-5 mb-lg-0">
+                <h1 class="fw-600 mb-4" style="font-size: 3.5rem; line-height: 1.1; letter-spacing: -0.02em;">
+                    Gérez vos biens<br>
+                    <span style="color: var(--bleu);">en toute simplicité</span>
+                </h1>
+                <p class="lead mb-4" style="opacity: 0.8; font-size: 1.25rem;">
+                    La plateforme professionnelle de gestion locative pensée pour les propriétaires au Sénégal.
+                </p>
+                <div class="d-flex gap-3 flex-wrap">
+                    <a href="{{ url_for('auth.register') }}" class="btn-minimal btn-primary btn-large">
+                        <i class="bi bi-rocket-takeoff"></i>
+                        Essayer gratuitement
+                    </a>
+                    <a href="{{ url_for('main.pricing') }}" class="btn-minimal btn-large"
+                        style="background: rgba(255,255,255,0.1); color: white; border: 1px solid rgba(255,255,255,0.2);">
+                        Voir les tarifs
+                    </a>
+                </div>
+                <p class="mt-4 mb-0 small" style="opacity: 0.6;">
+                    <i class="bi bi-check-circle"></i> Aucune carte bancaire requise
+                    <span class="mx-2">•</span>
+                    <i class="bi bi-check-circle"></i> 2 appartements gratuits
+                </p>
+            </div>
+
+            <div class="col-lg-6">
+                <!-- Dashboard Screenshot -->
+                <div class="card-minimal p-0 overflow-hidden animate-scale-in" style="max-width: 100%;">
+                    <img src="{{ url_for('static', filename='img/dashboard.png') }}" alt="ImmoGest Dashboard"
+                        class="w-100 h-auto d-block" style="border-radius: var(--radius-lg);" loading="eager">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Stats Section -->
+<div class="bg-cream py-5">
+    <div class="container">
+        <div class="row text-center g-4">
+            <div class="col-md-4">
+                <div class="p-4">
+                    <h2 class="fw-600 mb-2" style="font-size: 3rem; color: var(--bleu);">100%</h2>
+                    <p class="text-muted mb-0">Gratuit jusqu'à 2 appts</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="p-4">
+                    <h2 class="fw-600 mb-2" style="font-size: 3rem; color: var(--bleu);">5 min</h2>
+                    <p class="text-muted mb-0">Pour créer votre compte</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="p-4">
+                    <h2 class="fw-600 mb-2" style="font-size: 3rem; color: var(--bleu);">24/7</h2>
+                    <p class="text-muted mb-0">Support WhatsApp</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Features Section -->
+<div class="container py-5 my-5">
+    <div class="text-center mb-5 fade-in">
+        <h2 class="fw-600 mb-3" style="font-size: 2.5rem;">Tout ce dont vous avez besoin</h2>
+        <p class="text-muted lead">Des outils simples mais puissants pour gérer votre patrimoine</p>
+    </div>
+
+    <div class="row g-4">
+        <!-- Feature 1: Multi-Biens -->
+        <div class="col-md-6 col-lg-4">
+            <div class="card-minimal hover-lift h-100 text-center fade-in">
+                <div class="d-flex align-items-center justify-content-center mx-auto mb-4"
+                    style="width: 64px; height: 64px; border-radius: 16px; background: rgba(37, 99, 235, 0.1);">
+                    <i class="bi bi-building text-bleu" style="font-size: 2rem;"></i>
+                </div>
+                <h5 class="fw-600 mb-3">Gestion Multi-Biens</h5>
+                <p class="text-muted small mb-0">
+                    Centralisez tous vos immeubles et appartements sur une seule plateforme. Vue d'ensemble en temps
+                    réel.
+                </p>
+            </div>
+        </div>
+
+        <!-- Feature 2: Quittances PDF -->
+        <div class="col-md-6 col-lg-4">
+            <div class="card-minimal hover-lift h-100 text-center fade-in">
+                <div class="d-flex align-items-center justify-content-center mx-auto mb-4"
+                    style="width: 64px; height: 64px; border-radius: 16px; background: rgba(37, 99, 235, 0.1);">
+                    <i class="bi bi-file-earmark-pdf text-bleu" style="font-size: 2rem;"></i>
+                </div>
+                <h5 class="fw-600 mb-3">Quittances PDF</h5>
+                <p class="text-muted small mb-0">
+                    Générez des quittances de loyer professionnelles en un clic. Format PDF optimisé pour l'impression.
+                </p>
+            </div>
+        </div>
+
+        <!-- Feature 3: Dashboard -->
+        <div class="col-md-6 col-lg-4">
+            <div class="card-minimal hover-lift h-100 text-center fade-in">
+                <div class="d-flex align-items-center justify-content-center mx-auto mb-4"
+                    style="width: 64px; height: 64px; border-radius: 16px; background: rgba(37, 99, 235, 0.1);">
+                    <i class="bi bi-graph-up-arrow text-bleu" style="font-size: 2rem;"></i>
+                </div>
+                <h5 class="fw-600 mb-3">Dashboard Analytique</h5>
+                <p class="text-muted small mb-0">
+                    Suivez vos revenus, taux d'occupation et performances en temps réel avec des graphiques clairs.
+                </p>
+            </div>
+        </div>
+
+        <!-- Feature 4: WhatsApp -->
+        <div class="col-md-6 col-lg-4">
+            <div class="card-minimal hover-lift h-100 text-center fade-in">
+                <div class="d-flex align-items-center justify-content-center mx-auto mb-4"
+                    style="width: 64px; height: 64px; border-radius: 16px; background: rgba(37, 99, 235, 0.1);">
+                    <i class="bi bi-whatsapp text-bleu" style="font-size: 2rem;"></i>
+                </div>
+                <h5 class="fw-600 mb-3">Support WhatsApp</h5>
+                <p class="text-muted small mb-0">
+                    Une question ? Notre équipe vous répond rapidement via WhatsApp. Service client réactif.
+                </p>
+            </div>
+        </div>
+
+        <!-- Feature 5: Mobile -->
+        <div class="col-md-6 col-lg-4">
+            <div class="card-minimal hover-lift h-100 text-center fade-in">
+                <div class="d-flex align-items-center justify-content-center mx-auto mb-4"
+                    style="width: 64px; height: 64px; border-radius: 16px; background: rgba(37, 99, 235, 0.1);">
+                    <i class="bi bi-phone text-bleu" style="font-size: 2rem;"></i>
+                </div>
+                <h5 class="fw-600 mb-3">Mobile-Friendly</h5>
+                <p class="text-muted small mb-0">
+                    Gérez vos biens depuis votre smartphone. Interface optimisée pour mobile et tablette.
+                </p>
+            </div>
+        </div>
+
+        <!-- Feature 6: Sécurité -->
+        <div class="col-md-6 col-lg-4">
+            <div class="card-minimal hover-lift h-100 text-center fade-in">
+                <div class="d-flex align-items-center justify-content-center mx-auto mb-4"
+                    style="width: 64px; height: 64px; border-radius: 16px; background: rgba(37, 99, 235, 0.1);">
+                    <i class="bi bi-shield-check text-bleu" style="font-size: 2rem;"></i>
+                </div>
+                <h5 class="fw-600 mb-3">Données Sécurisées</h5>
+                <p class="text-muted small mb-0">
+                    Vos données sont protégées et sauvegardées quotidiennement. Conformité RGPD assurée.
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- CTA Section -->
+<div class="py-5 my-5" style="background: linear-gradient(135deg, #0A0A0A 0%, #1a1a1a 100%);">
+    <div class="container py-5 text-center text-white fade-in">
+        <h2 class="fw-600 mb-4" style="font-size: 2.5rem;">Prêt à simplifier votre gestion locative ?</h2>
+        <p class="lead mb-5" style="opacity: 0.8; max-width: 600px; margin: 0 auto;">
+            Rejoignez des centaines de propriétaires qui gèrent leurs biens avec ImmoGest.
+        </p>
+        <a href="{{ url_for('auth.register') }}" class="btn-minimal btn-primary btn-large"
+            style="box-shadow: 0 4px 14px rgba(37, 99, 235, 0.4);">
+            <i class="bi bi-rocket-takeoff"></i>
+            Créer mon compte gratuit
+        </a>
+        <p class="mt-4 mb-0 small" style="opacity: 0.6;">
+            <i class="bi bi-check-circle"></i> Aucune carte bancaire requise
+            <span class="mx-2">•</span>
+            <i class="bi bi-check-circle"></i> Annulation à tout moment
+        </p>
+    </div>
+</div>
+
+<!-- Footer -->
+<footer class="bg-cream py-5">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6 mb-4 mb-md-0">
+                <div class="d-flex align-items-center gap-2 text-noir fw-600 mb-3" style="font-size: 1.5rem;">
+                    <i class="bi bi-building text-bleu"></i>
+                    ImmoGest
+                </div>
+                <p class="text-muted small mb-0">
+                    La plateforme de gestion locative professionnelle<br>
+                    Pensée pour les propriétaires au Sénégal
+                </p>
+            </div>
+            <div class="col-md-6 text-md-end">
+                <div class="d-flex flex-column gap-2">
+                    <a href="{{ url_for('main.pricing') }}"
+                        class="text-muted text-decoration-none small hover-text-bleu">Tarifs</a>
+                    <a href="{{ url_for('auth.login') }}"
+                        class="text-muted text-decoration-none small hover-text-bleu">Connexion</a>
+                    <a href="https://wa.me/221776767255" class="text-muted text-decoration-none small hover-text-bleu"
+                        target="_blank">
+                        <i class="bi bi-whatsapp"></i> Support
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="border-top border-gray-200 mt-4 pt-4 text-center">
+            <p class="text-muted small mb-0">
+                &copy; 2023 ImmoGest Sénégal. Tous droits réservés.
+            </p>
+        </div>
+    </div>
+</footer>
+
+{% endblock %}

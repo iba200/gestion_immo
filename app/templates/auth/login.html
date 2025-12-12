@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="row justify-content-center align-items-center" style="min-height: 70vh;">
+    <div class="col-lg-5 col-xl-4">
+        <!-- Logo/Icon -->
+        <div class="text-center mb-4 fade-in">
+            <div class="d-flex align-items-center justify-content-center mx-auto mb-3"
+                style="width: 64px; height: 64px; border-radius: 16px; background: var(--noir);">
+                <span class="text-white fw-600" style="font-size: 1.5rem; letter-spacing: -0.02em;">IG</span>
+            </div>
+            <h3 class="fw-600 mb-1">Bienvenue</h3>
+            <p class="text-muted small mb-0">Connectez-vous à votre espace</p>
+        </div>
+
+        <!-- Login Card -->
+        <div class="card-static fade-in-up">
+            <form method="POST">
+                {{ form.hidden_tag() }}
+
+                <!-- Email Field -->
+                <div class="mb-3">
+                    <label for="email" class="form-label small fw-500 text-noir mb-2">Email</label>
+                    {{ form.email(class="input-minimal", placeholder="votre@email.com", autocomplete="email") }}
+                    {% if form.email.errors %}
+                    <div class="text-danger small mt-1">
+                        {% for error in form.email.errors %}{{ error }}{% endfor %}
+                    </div>
+                    {% endif %}
+                </div>
+
+                <!-- Password Field -->
+                <div class="mb-4">
+                    <label for="password" class="form-label small fw-500 text-noir mb-2">Mot de passe</label>
+                    {{ form.password(class="input-minimal", placeholder="••••••••", autocomplete="current-password") }}
+                    {% if form.password.errors %}
+                    <div class="text-danger small mt-1">
+                        {% for error in form.password.errors %}{{ error }}{% endfor %}
+                    </div>
+                    {% endif %}
+                </div>
+
+                <!-- Submit Button -->
+                <div class="d-grid">
+                    <button type="submit" class="btn-minimal btn-primary btn-large">
+                        <i class="bi bi-box-arrow-in-right"></i>
+                        Se connecter
+                    </button>
+                </div>
+            </form>
+        </div>
+
+        <!-- Register Link -->
+        <div class="text-center mt-4 fade-in">
+            <p class="text-muted small mb-0">
+                Pas encore de compte ?
+                <a href="{{ url_for('auth.register') }}" class="text-bleu text-decoration-none fw-500">
+                    Créer un compte
+                </a>
+            </p>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

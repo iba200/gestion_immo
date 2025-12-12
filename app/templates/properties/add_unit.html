@@ -1,0 +1,93 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<!-- Breadcrumb -->
+<nav class="mb-4 fade-in">
+    <a href="{{ url_for('properties.details', property_id=property.id) }}"
+        class="text-muted text-decoration-none small fw-500">
+        <i class="bi bi-arrow-left me-1"></i> Retour à {{ property.name }}
+    </a>
+</nav>
+
+<!-- Form Card -->
+<div class="row justify-content-center">
+    <div class="col-lg-8 col-xl-6">
+        <div class="card-static fade-in-up">
+            <!-- Header -->
+            <div class="text-center mb-4">
+                <div class="d-flex align-items-center justify-content-center mx-auto mb-3"
+                    style="width: 64px; height: 64px; border-radius: 16px; background: rgba(37, 99, 235, 0.1);">
+                    <i class="bi bi-house-door text-bleu" style="font-size: 2rem;"></i>
+                </div>
+                <h3 class="fw-600 mb-2">Ajouter un Appartement</h3>
+                <p class="text-muted small mb-0">
+                    <i class="bi bi-building"></i> {{ property.name }}
+                </p>
+            </div>
+
+            <!-- Form -->
+            <form method="POST">
+                {{ form.hidden_tag() }}
+
+                <!-- Door Number Field -->
+                <div class="mb-4">
+                    <label for="door_number" class="form-label small fw-500 text-noir mb-2">
+                        Numéro de porte <span class="text-danger">*</span>
+                    </label>
+                    {{ form.door_number(class="input-minimal", placeholder="Ex: A1, 2ème Gauche, Studio 5") }}
+                    {% if form.door_number.errors %}
+                    <div class="text-danger small mt-1">
+                        {% for error in form.door_number.errors %}{{ error }}{% endfor %}
+                    </div>
+                    {% endif %}
+                </div>
+
+                <!-- Rent Amount Field -->
+                <div class="mb-4">
+                    <label for="rent_amount" class="form-label small fw-500 text-noir mb-2">
+                        Loyer mensuel <span class="text-danger">*</span>
+                    </label>
+                    <div class="input-group">
+                        {{ form.rent_amount(class="input-minimal", placeholder="250000", type="number",
+                        style="border-right: none;") }}
+                        <span class="input-group-text bg-transparent"
+                            style="border-left: none; border: 1px solid var(--gris-200); border-left: none;">CFA</span>
+                    </div>
+                    {% if form.rent_amount.errors %}
+                    <div class="text-danger small mt-1">
+                        {% for error in form.rent_amount.errors %}{{ error }}{% endfor %}
+                    </div>
+                    {% endif %}
+                </div>
+
+                <!-- Submit Button -->
+                <div class="d-grid gap-2">
+                    <button type="submit" class="btn-minimal btn-primary btn-large">
+                        <i class="bi bi-check-lg"></i>
+                        Enregistrer l'appartement
+                    </button>
+                    <a href="{{ url_for('properties.details', property_id=property.id) }}"
+                        class="btn-minimal btn-secondary text-center">
+                        Annuler
+                    </a>
+                </div>
+            </form>
+        </div>
+
+        <!-- Help Card -->
+        <div class="card-minimal-sm mt-3 fade-in" style="background: var(--gris-100); box-shadow: none;">
+            <div class="d-flex gap-3">
+                <i class="bi bi-info-circle text-bleu" style="font-size: 1.25rem;"></i>
+                <div>
+                    <p class="small fw-500 text-noir mb-1">Conseil</p>
+                    <p class="small text-muted mb-0">
+                        Après avoir créé l'appartement, vous pourrez y ajouter un locataire directement depuis la liste.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="row justify-content-center text-center align-items-center" style="min-height: 60vh;">
+    <div class="col-md-6 col-lg-5">
+        
+        <!-- Animation Succès -->
+        <div class="mb-4 fade-in-up">
+            <div class="d-inline-flex align-items-center justify-content-center bg-white rounded-circle shadow-sm mb-3" 
+                 style="width: 80px; height: 80px;">
+                <i class="bi bi-check-circle-fill text-success" style="font-size: 3rem;"></i>
+            </div>
+            <h2 class="fw-600 mt-2 mb-1">Paiement Enregistré !</h2>
+            <p class="text-muted">
+                Le paiement de <span class="fw-bold text-noir">{{ "{:,.0f}".format(payment.amount).replace(',', ' ') }} CFA</span> a été validé.
+            </p>
+        </div>
+
+        <!-- Carte Actions -->
+        <div class="card-static mb-4 p-4 fade-in-up" style="animation-delay: 0.1s;">
+            <h6 class="text-muted small fw-600 mb-3 text-uppercase" style="letter-spacing: 0.05em;">
+                Que voulez-vous faire ?
+            </h6>
+            
+            <div class="d-grid gap-3">
+                <!-- Bouton WhatsApp (Action Principale) -->
+                <a href="{{ whatsapp_link }}" target="_blank" class="btn-minimal btn-success btn-large shadow-sm">
+                    <i class="bi bi-whatsapp me-2"></i>Envoyer confirmation WhatsApp
+                </a>
+
+                <!-- Bouton PDF (Action Secondaire) -->
+                <a href="{{ pdf_url }}" target="_blank" class="btn-minimal btn-outline-secondary">
+                    <i class="bi bi-file-earmark-pdf me-2"></i>Télécharger la Quittance PDF
+                </a>
+            </div>
+        </div>
+
+        <!-- Lien Retour -->
+        <div class="fade-in" style="animation-delay: 0.2s;">
+            <a href="{{ url_for('properties.tenant_details', tenant_id=payment.tenant.id) }}" 
+               class="text-muted text-decoration-none small fw-500 hover-opacity">
+                <i class="bi bi-arrow-left me-1"></i> Retour au dossier locataire
+            </a>
+        </div>
+
+    </div>
+</div>
+{% endblock %}

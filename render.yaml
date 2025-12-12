@@ -1,0 +1,24 @@
+services:
+  # Flask Web Service
+  - type: web
+    name: immogest
+    runtime: python
+    plan: free
+    buildCommand: pip install -r requirements.txt
+    startCommand: gunicorn run:app
+    envVars:
+      - key: FLASK_ENV
+        value: production
+      - key: SECRET_KEY
+        generateValue: true
+      - key: DATABASE_URL
+        fromDatabase:
+          name: immogest_db
+          property: connectionString
+
+databases:
+  # PostgreSQL Database
+  - name: immogest_db
+    plan: free
+    databaseName: immogest
+    user: immogest_user

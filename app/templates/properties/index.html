@@ -1,0 +1,92 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<!-- Header -->
+<div class="d-flex justify-content-between align-items-center mb-4 fade-in">
+    <div>
+        <h2 class="fw-600 mb-1">Mes Immeubles</h2>
+        <p class="text-muted mb-0 small">
+            <i class="bi bi-building"></i>
+            {{ properties|length }} bien{{ 's' if properties|length > 1 else '' }}
+        </p>
+    </div>
+    <a href="{{ url_for('properties.add') }}" class="btn-minimal btn-primary">
+        <i class="bi bi-plus-lg"></i>
+        Nouvel Immeuble
+    </a>
+</div>
+
+<!-- Properties Grid -->
+{% if properties %}
+<div class="row g-3">
+    {% for property in properties %}
+    <div class="col-md-6 col-xl-4">
+        <a href="{{ url_for('properties.details', property_id=property.id) }}"
+            class="card-minimal hover-lift text-decoration-none d-block fade-in">
+            <!-- Icon Header -->
+            <div class="d-flex align-items-start justify-content-between mb-3">
+                <div class="d-flex align-items-center justify-content-center"
+                    style="width: 48px; height: 48px; border-radius: 12px; background: rgba(37, 99, 235, 0.1);">
+                    <i class="bi bi-building text-bleu fs-4"></i>
+                </div>
+                <span class="badge-minimal">{{ property.units.count() }} appts</span>
+            </div>
+
+            <!-- Property Info -->
+            <h5 class="fw-600 text-noir mb-2">{{ property.name }}</h5>
+            {% if property.address %}
+            <p class="text-muted small mb-3">
+                <i class="bi bi-geo-alt"></i>
+                {{ property.address }}
+            </p>
+            {% endif %}
+
+            <!-- Stats -->
+            <div class="d-flex align-items-center justify-content-between pt-3"
+                style="border-top: 1px solid var(--gris-200);">
+                <div class="d-flex align-items-center gap-2">
+                    {% set occupied = property.units.filter_by().all()|selectattr('current_tenant')|list|length %}
+                    {% set total = property.units.count() %}
+                    {% set occupancy = ((occupied / total * 100)|int) if total > 0 else 0 %}
+
+                    <div class="d-flex align-items-center justify-content-center"
+                        style="width: 32px; height: 32px; border-radius: 6px; background: {% if occupancy >= 80 %}rgba(16, 185, 129, 0.1){% elif occupancy >= 50 %}rgba(37, 99, 235, 0.1){% else %}rgba(239, 68, 68, 0.1){% endif %};">
+                        <i
+                            class="bi bi-pie-chart {% if occupancy >= 80 %}text-success{% elif occupancy >= 50 %}text-bleu{% else %}text-danger{% endif %} small"></i>
+                    </div>
+                    <span class="small fw-500 text-muted">{{ occupancy }}% occupé</span>
+                </div>
+                <i class="bi bi-arrow-right text-muted"></i>
+            </div>
+        </a>
+    </div>
+    {% endfor %}
+</div>
+
+{% else %}
+<!-- Empty State -->
+<div class="text-center py-5 fade-in-up">
+    <div class="d-flex align-items-center justify-content-center mx-auto mb-4"
+        style="width: 80px; height: 80px; border-radius: 16px; background: rgba(37, 99, 235, 0.1);">
+        <i class="bi bi-building text-bleu" style="font-size: 2rem;"></i>
+    </div>
+    <h4 class="fw-600 mb-2">Aucun immeuble</h4>
+    <p class="text-muted mb-4">Commencez par ajouter votre premier bien immobilier.</p>
+    <a href="{{ url_for('properties.add') }}" class="btn-minimal btn-primary btn-large">
+        <i class="bi bi-plus-lg"></i>
+        Ajouter mon premier immeuble
+    </a>
+</div>
+{% endif %}
+
+<!-- Mobile FAB -->
+<div class="d-lg-none position-fixed" style="bottom: 90px; right: 20px; z-index: 900;">
+    <a href="{{ url_for('properties.add') }}"
+        class="btn-minimal btn-primary rounded-circle shadow-lg d-flex align-items-center justify-content-center"
+        style="width: 56px; height: 56px; padding: 0;">
+        <i class="bi bi-plus-lg fs-4"></i>
+    </a>
+</div>
+
+{% endblock %}

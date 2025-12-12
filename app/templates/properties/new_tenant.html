@@ -1,0 +1,115 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<!-- Breadcrumb -->
+<nav class="mb-4 fade-in">
+    <a href="{{ url_for('properties.details', property_id=unit.property.id) }}"
+        class="text-muted text-decoration-none small fw-500">
+        <i class="bi bi-arrow-left me-1"></i> Retour à {{ unit.property.name }}
+    </a>
+</nav>
+
+<!-- Form Card -->
+<div class="row justify-content-center">
+    <div class="col-lg-8 col-xl-6">
+        <div class="card-static fade-in-up">
+            <!-- Header -->
+            <div class="text-center mb-4">
+                <div class="d-flex align-items-center justify-content-center mx-auto mb-3"
+                    style="width: 64px; height: 64px; border-radius: 16px; background: rgba(37, 99, 235, 0.1);">
+                    <i class="bi bi-person-plus text-bleu" style="font-size: 2rem;"></i>
+                </div>
+                <h3 class="fw-600 mb-2">Nouveau Locataire</h3>
+                <p class="text-muted small mb-0">
+                    <i class="bi bi-building"></i> {{ unit.property.name }} - Appt {{ unit.door_number }}
+                </p>
+            </div>
+
+            <!-- Form -->
+            <form method="POST">
+                {{ form.hidden_tag() }}
+
+                <!-- Full Name -->
+                <div class="mb-3">
+                    <label for="full_name" class="form-label small fw-500 text-noir mb-2">
+                        Nom complet <span class="text-danger">*</span>
+                    </label>
+                    {{ form.full_name(class="input-minimal", placeholder="Ex: Amadou Diop") }}
+                    {% if form.full_name.errors %}
+                    <div class="text-danger small mt-1">
+                        {% for error in form.full_name.errors %}{{ error }}{% endfor %}
+                    </div>
+                    {% endif %}
+                </div>
+
+                <!-- Phone -->
+                <div class="mb-3">
+                    <label for="phone" class="form-label small fw-500 text-noir mb-2">
+                        Téléphone <span class="text-danger">*</span>
+                    </label>
+                    {{ form.phone(class="input-minimal", placeholder="77 123 45 67") }}
+                    {% if form.phone.errors %}
+                    <div class="text-danger small mt-1">
+                        {% for error in form.phone.errors %}{{ error }}{% endfor %}
+                    </div>
+                    {% endif %}
+                </div>
+
+                <!-- Email -->
+                <div class="mb-3">
+                    <label for="email" class="form-label small fw-500 text-noir mb-2">
+                        Email <span class="text-muted fw-normal">(optionnel)</span>
+                    </label>
+                    {{ form.email(class="input-minimal", placeholder="email@exemple.com") }}
+                    {% if form.email.errors %}
+                    <div class="text-danger small mt-1">
+                        {% for error in form.email.errors %}{{ error }}{% endfor %}
+                    </div>
+                    {% endif %}
+                </div>
+
+                <!-- Entry Date -->
+                <div class="mb-4">
+                    <label for="entry_date" class="form-label small fw-500 text-noir mb-2">
+                        Date d'entrée <span class="text-danger">*</span>
+                    </label>
+                    {{ form.entry_date(class="input-minimal", type="date") }}
+                    {% if form.entry_date.errors %}
+                    <div class="text-danger small mt-1">
+                        {% for error in form.entry_date.errors %}{{ error }}{% endfor %}
+                    </div>
+                    {% endif %}
+                </div>
+
+                <!-- Submit Button -->
+                <div class="d-grid gap-2">
+                    <button type="submit" class="btn-minimal btn-primary btn-large">
+                        <i class="bi bi-check-lg"></i>
+                        Enregistrer le locataire
+                    </button>
+                    <a href="{{ url_for('properties.details', property_id=unit.property.id) }}"
+                        class="btn-minimal btn-secondary text-center">
+                        Annuler
+                    </a>
+                </div>
+            </form>
+        </div>
+
+        <!-- Help Card -->
+        <div class="card-minimal-sm mt-3 fade-in" style="background: var(--gris-100); box-shadow: none;">
+            <div class="d-flex gap-3">
+                <i class="bi bi-info-circle text-bleu" style="font-size: 1.25rem;"></i>
+                <div>
+                    <p class="small fw-500 text-noir mb-1">Information</p>
+                    <p class="small text-muted mb-0">
+                        Une fois le locataire ajouté, vous pourrez enregistrer ses paiements mensuels et générer des
+                        quittances PDF.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

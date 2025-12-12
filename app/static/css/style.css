@@ -1,0 +1,501 @@
+/* ================================================
+   IMMOGEST SAAS - PREMIUM MINIMALIST DESIGN
+   Style: Apple / Airbnb inspired
+   Palette: Noir (#0A0A0A) + Bleu (#2563EB) + Blanc
+   ================================================ */
+
+/* === COLOR PALETTE === */
+:root {
+  /* Primary Colors */
+  --noir: #0A0A0A;
+  --bleu: #2563EB;
+  --bleu-hover: #1d4ed8;
+  --blanc: #FFFFFF;
+
+  /* Support Grays */
+  --gris-50: #F9FAFB;
+  --gris-100: #F3F4F6;
+  --gris-200: #E5E7EB;
+  --gris-400: #9CA3AF;
+  --gris-600: #6B7280;
+
+  /* Semantic Colors */
+  --success: #10B981;
+  --warning: #F59E0B;
+  --danger: #EF4444;
+
+  /* Shadows (subtle, Apple-style) */
+  --shadow-xs: 0 1px 2px rgba(10, 10, 10, 0.04);
+  --shadow-sm: 0 1px 4px rgba(10, 10, 10, 0.04);
+  --shadow-md: 0 4px 8px rgba(10, 10, 10, 0.06);
+  --shadow-lg: 0 10px 20px rgba(10, 10, 10, 0.08);
+  --shadow-xl: 0 20px 40px rgba(10, 10, 10, 0.10);
+
+  /* Typography */
+  --font-primary: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+
+  /* Spacing (generous for minimalism) */
+  --space-xs: 0.5rem;
+  /* 8px */
+  --space-sm: 1rem;
+  /* 16px */
+  --space-md: 1.5rem;
+  /* 24px */
+  --space-lg: 2.5rem;
+  /* 40px */
+  --space-xl: 4rem;
+  /* 64px */
+
+  /* Border Radius (soft, Apple-style) */
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-xl: 20px;
+}
+
+/* === BASE STYLES === */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: var(--font-primary);
+  background-color: var(--gris-50);
+  color: var(--noir);
+  font-size: 15px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* === TYPOGRAPHY === */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--font-primary);
+  font-weight: 600;
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+  color: var(--noir);
+  margin-bottom: var(--space-sm);
+}
+
+/* Override headings color on dark backgrounds */
+.bg-noir h1,
+.bg-noir h2,
+.bg-noir h3,
+.bg-noir h4,
+.bg-noir h5,
+.bg-noir h6,
+[style*="background: linear-gradient"] h1,
+[style*="background: linear-gradient"] h2,
+[style*="background: linear-gradient"] h3,
+[style*="background: linear-gradient"] h4,
+[style*="background: linear-gradient"] h5,
+[style*="background: linear-gradient"] h6 {
+  color: var(--blanc) !important;
+}
+
+h1 {
+  font-size: 2.25rem;
+}
+
+/* 36px */
+h2 {
+  font-size: 1.875rem;
+}
+
+/* 30px */
+h3 {
+  font-size: 1.5rem;
+}
+
+/* 24px */
+h4 {
+  font-size: 1.25rem;
+}
+
+/* 20px */
+h5 {
+  font-size: 1.125rem;
+}
+
+/* 18px */
+h6 {
+  font-size: 1rem;
+}
+
+/* 16px */
+
+p {
+  margin-bottom: var(--space-sm);
+  color: var(--gris-600);
+}
+
+/* === PREMIUM CARDS === */
+.card-minimal {
+  background: var(--blanc);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-sm);
+  padding: var(--space-lg);
+  transition: all 0.15s ease;
+}
+
+.card-minimal:hover {
+  box-shadow: var(--shadow-md);
+  transform: translateY(-2px);
+}
+
+.card-minimal-sm {
+  background: var(--blanc);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-sm);
+  padding: var(--space-md);
+  transition: all 0.15s ease;
+}
+
+.card-minimal-sm:hover {
+  box-shadow: var(--shadow-md);
+}
+
+/* Card with no hover effect */
+.card-static {
+  background: var(--blanc);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-sm);
+  padding: var(--space-lg);
+}
+
+/* === BUTTONS === */
+.btn-minimal {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.5rem;
+  font-family: var(--font-primary);
+  font-weight: 500;
+  font-size: 0.9375rem;
+  border-radius: var(--radius-sm);
+  border: none;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  text-decoration: none;
+}
+
+.btn-primary {
+  background: var(--bleu);
+  color: var(--blanc);
+}
+
+.btn-primary:hover {
+  background: var(--bleu-hover);
+  transform: scale(0.98);
+  color: var(--blanc);
+}
+
+.btn-secondary {
+  background: var(--blanc);
+  color: var(--noir);
+  box-shadow: var(--shadow-xs);
+}
+
+.btn-secondary:hover {
+  box-shadow: var(--shadow-sm);
+  transform: scale(0.98);
+}
+
+.btn-large {
+  padding: 1rem 2rem;
+  font-size: 1rem;
+}
+
+/* === INPUTS === */
+.input-minimal {
+  width: 100%;
+  padding: 0.875rem 1rem;
+  font-size: 15px;
+  font-family: var(--font-primary);
+  border: 1px solid var(--gris-200);
+  border-radius: var(--radius-sm);
+  background: var(--blanc);
+  color: var(--noir);
+  transition: all 0.15s ease;
+}
+
+.input-minimal:focus {
+  outline: none;
+  border-color: var(--bleu);
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+}
+
+.input-minimal::placeholder {
+  color: var(--gris-400);
+}
+
+/* === BADGES === */
+.badge-minimal {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.25rem 0.75rem;
+  font-size: 0.75rem;
+  font-weight: 500;
+  border-radius: 100px;
+  background: var(--gris-100);
+  color: var(--gris-600);
+}
+
+.badge-primary {
+  background: rgba(37, 99, 235, 0.1);
+  color: var(--bleu);
+}
+
+.badge-success {
+  background: rgba(16, 185, 129, 0.1);
+  color: var(--success);
+}
+
+.badge-danger {
+  background: rgba(239, 68, 68, 0.1);
+  color: var(--danger);
+}
+
+/* === NAVIGATION === */
+.nav-minimal {
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  box-shadow: var(--shadow-xs);
+  padding: var(--space-sm) 0;
+}
+
+.nav-link-minimal {
+  padding: 0.5rem 1rem;
+  font-weight: 500;
+  font-size: 0.9375rem;
+  color: var(--gris-600);
+  text-decoration: none;
+  border-radius: var(--radius-sm);
+  transition: all 0.15s ease;
+}
+
+.nav-link-minimal:hover,
+.nav-link-minimal.active {
+  background: var(--gris-100);
+  color: var(--noir);
+}
+
+/* Mobile Bottom Nav */
+.bottom-nav-minimal {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  box-shadow: 0 -1px 4px rgba(0, 0, 0, 0.04);
+  display: flex;
+  justify-content: space-around;
+  padding: 0.5rem 0;
+  z-index: 1000;
+}
+
+.nav-item-minimal {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.5rem;
+  color: var(--gris-600);
+  text-decoration: none;
+  font-size: 0.75rem;
+  font-weight: 500;
+  transition: all 0.15s ease;
+}
+
+.nav-item-minimal i {
+  font-size: 1.25rem;
+}
+
+.nav-item-minimal.active {
+  color: var(--bleu);
+}
+
+/* === UTILITY CLASSES === */
+.text-bleu {
+  color: var(--bleu);
+}
+
+.text-noir {
+  color: var(--noir);
+}
+
+.text-muted {
+  color: var(--gris-600);
+}
+
+.text-light {
+  color: var(--gris-400);
+}
+
+.bg-bleu {
+  background-color: var(--bleu);
+}
+
+.bg-noir {
+  background-color: var(--noir);
+}
+
+.bg-gris-light {
+  background-color: var(--gris-50);
+}
+
+.bg-blanc {
+  background-color: var(--blanc);
+}
+
+/* Spacing */
+.mt-xl {
+  margin-top: var(--space-xl);
+}
+
+.mb-xl {
+  margin-bottom: var(--space-xl);
+}
+
+.py-xl {
+  padding-top: var(--space-xl);
+  padding-bottom: var(--space-xl);
+}
+
+/* Hover Effects */
+.hover-lift {
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.hover-lift:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+
+.hover-scale {
+  transition: transform 0.15s ease;
+}
+
+.hover-scale:hover {
+  transform: scale(0.98);
+}
+
+/* === ANIMATIONS === */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.fade-in {
+  animation: fadeIn 0.3s ease-out;
+}
+
+.fade-in-up {
+  animation: fadeInUp 0.4s ease-out;
+}
+
+/* === RESPONSIVE === */
+@media (min-width: 992px) {
+  body {
+    padding-bottom: 0;
+  }
+
+  .bottom-nav-minimal {
+    display: none;
+  }
+}
+
+@media (max-width: 991px) {
+  body {
+    padding-top: 70px;
+    padding-bottom: 80px;
+  }
+
+  h1 {
+    font-size: 1.875rem;
+  }
+
+  h2 {
+    font-size: 1.5rem;
+  }
+
+  h3 {
+    font-size: 1.25rem;
+  }
+}
+
+/* === LEGACY OVERRIDES (remove wireframe) === */
+/* Reset any remaining wireframe styles */
+.wire-card,
+.wire-card-light,
+.wire-btn,
+.wire-icon,
+.wire-badge {
+  /* These will be replaced gradually */
+  border: none !important;
+}
+
+/* === DROPDOWN OPTIMIZATIONS === */
+/* Make dropdowns appear instantly (no transition delay) */
+.dropdown-menu {
+  transition: opacity 0.1s ease, transform 0.1s ease !important;
+  border: none;
+  box-shadow: var(--shadow-md);
+}
+
+.dropdown-menu.show {
+  animation: none !important;
+}
+
+/* Dropdown items refined */
+.dropdown-item {
+  padding: 0.5rem 1rem;
+  font-size: 0.9375rem;
+  transition: background 0.1s ease;
+}
+
+.dropdown-item:hover {
+  background: var(--gris-100);
+}
+
+.dropdown-header {
+  font-weight: 500;
+  color: var(--gris-600);
+}
+
+/* === UTILITY CLASSES === */
+.hover-text-bleu:hover {
+  color: var(--bleu) !important;
+  transition: color 150ms ease;
+}

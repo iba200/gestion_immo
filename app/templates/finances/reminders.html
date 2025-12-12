@@ -1,0 +1,128 @@
+{% extends "base.html" %}
+
+{% block title %}Rappels de Paiement - ImmoGest{% endblock %}
+
+{% block content %}
+<div class="container pb-5">
+    <!-- Header -->
+    <div class="d-flex align-items-center justify-content-between mb-4 fade-in">
+        <div>
+            <h1 class="h3 fw-bold mb-1">Rappels de Paiement</h1>
+            <p class="text-muted mb-0">
+                Gestion des loyers impayés pour la période <strong>{{ current_period }}</strong>
+            </p>
+        </div>
+        <div>
+            <a href="{{ url_for('main.index') }}" class="btn btn-light">
+                <i class="bi bi-arrow-left me-2"></i>Retour
+            </a>
+        </div>
+    </div>
+
+    <!-- Stats Summary -->
+    <div class="row g-3 mb-4 fade-in-up">
+        <div class="col-md-4">
+            <div class="card-static h-100 border-0 shadow-sm bg-white p-3">
+                <div class="d-flex align-items-center gap-3">
+                    <div class="d-flex align-items-center justify-content-center rounded-3 bg-danger-subtle text-danger"
+                        style="width: 48px; height: 48px;">
+                        <i class="bi bi-exclamation-triangle-fill fs-4"></i>
+                    </div>
+                    <div>
+                        <h6 class="text-muted small mb-1">Locataires en retard</h6>
+                        <h3 class="fw-bold mb-0">{{ late_tenants|length }}</h3>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card-static h-100 border-0 shadow-sm bg-white p-3">
+                <div class="d-flex align-items-center gap-3">
+                    <div class="d-flex align-items-center justify-content-center rounded-3 bg-warning-subtle text-warning"
+                        style="width: 48px; height: 48px;">
+                        <i class="bi bi-cash-stack fs-4"></i>
+                    </div>
+                    <div>
+                        <h6 class="text-muted small mb-1">Montant total dû</h6>
+                        <h3 class="fw-bold mb-0">
+                            {% set total_due = namespace(value=0) %}
+                            {% for item in late_tenants %}
+                            {% set total_due.value = total_due.value + item.amount_due %}
+                            {% endfor %}
+                            {{ "{:,.0f}".format(total_due.value).replace(',', ' ') }} <span
+                                class="fs-6 text-muted fw-normal">FCFA</span>
+                        </h3>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Late Tenants List -->
+    <div class="card-static border-0 shadow-sm bg-white fade-in-up" style="animation-delay: 0.1s;">
+        <div class="card-body p-0">
+            {% if late_tenants %}
+            <div class="table-responsive">
+                <table class="table table-hover align-middle mb-0">
+                    <thead class="bg-light">
+                        <tr>
+                            <th class="ps-4 py-3 text-muted small text-uppercase fw-bold">Locataire</th>
+                            <th class="py-3 text-muted small text-uppercase fw-bold">Logement</th>
+                            <th class="py-3 text-muted small text-uppercase fw-bold">Contact</th>
+                            <th class="py-3 text-muted small text-uppercase fw-bold text-end">Montant Dû</th>
+                            <th class="pe-4 py-3 text-muted small text-uppercase fw-bold text-end">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for item in late_tenants %}
+                        <tr>
+                            <td class="ps-4 py-3">
+                                <div class="d-flex align-items-center gap-3">
+                                    <div class="avatar-circle bg-light text-primary fw-bold">
+                                        {{ item.tenant.full_name[:2].upper() }}
+                                    </div>
+                                    <div>
+                                        <div class="fw-bold text-dark">{{ item.tenant.full_name }}</div>
+                                        <div class="small text-muted">Depuis {{
+                                            item.tenant.entry_date.strftime('%d/%m/%Y') }}</div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="py-3">
+                                <div class="fw-600">{{ item.property.name }}</div>
+                                <div class="small text-muted">{{ item.unit.door_number }}</div>
+                            </td>
+                            <td class="py-3">
+                                <div><i class="bi bi-telephone me-2 text-muted"></i>{{ item.tenant.phone }}</div>
+                            </td>
+                            <td class="py-3 text-end">
+                                <span class="badge bg-danger-subtle text-danger px-3 py-2 rounded-pill">
+                                    {{ "{:,.0f}".format(item.amount_due).replace(',', ' ') }} FCFA
+                                </span>
+                            </td>
+                            <td class="pe-4 py-3 text-end">
+                                <a href="{{ url_for('finances.send_reminder', tenant_id=item.tenant.id) }}"
+                                    target="_blank"
+                                    class="btn btn-success btn-sm fw-600 d-inline-flex align-items-center gap-2 shadow-sm hover-lift">
+                                    <i class="bi bi-whatsapp"></i>
+                                    Relancer
+                                </a>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            {% else %}
+            <div class="text-center py-5">
+                <div class="mb-3">
+                    <i class="bi bi-check-circle-fill text-success" style="font-size: 3rem;"></i>
+                </div>
+                <h4 class="fw-bold text-dark">Tout est à jour !</h4>
+                <p class="text-muted">Aucun retard de paiement détecté pour ce mois.</p>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}
