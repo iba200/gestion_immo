@@ -31,12 +31,12 @@
 
 ```bash
 # Cloner le projet
-git clone https://github.com/votre-username/immogest.git
+git clone https://github.com/iba200/immogest.git
 cd immogest
 
 # Créer un nouveau repo sur GitHub
 # Puis push
-git remote set-url origin https://github.com/VOTRE-USERNAME/immogest.git
+git remote set-url origin https://github.com/iba200/immogest.git
 git push -u origin main
 ```
 
